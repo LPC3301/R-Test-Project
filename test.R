@@ -10,4 +10,7 @@ library("Hmisc")
 transactions <- transactions[, TransDate:=as_datetime(TransDate, format="%d.%m.%Y")]
 
 #Select only the transactions later than 1975
-transact_shortened <- transactions[year(TransDate) > 1975]
+transact_shortened <- transactions[year(TransDate) > 1975,]
+
+#Aggregate Sum of PurchAmount by Customer and TransId
+transact_shortened <- transact_shortened[, SumPurch:=sum(PurchAmount), by=list(Customer, TransId)]
